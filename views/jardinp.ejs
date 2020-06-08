@@ -1,0 +1,31 @@
+<%-include ('components/header.ejs') %>
+
+<h1 class="cabecera">Jardin</h1>
+
+    <h2 class="categoria">Iluminacion</h2>
+    <div class="contenedor">
+        <div class="card contenedor__tarjeta" style="width: 18rem;">
+            <img src="../img/foco1.jpg" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Interior</h5>
+                <p class="card-text" id="Focojardin">🔴 Apagado</p>
+                <button class="btn btn-success">Encender</button>
+                <button class="btn btn-danger">Apagar</button>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="categoria">Sistema de Riego</h2>
+    <div class="contenedor">
+        <div class="card contenedor__tarjeta" style="width: 18rem;">
+            <img src="../img/regar.jpg" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Riego</h5>
+                <p class="card-text" id="Focojardin">🔴 Apagado</p>
+                <button class="btn btn-success">Encender</button>
+                <button class="btn btn-danger">Apagar</button>
+            </div>
+        </div>
+    </div>
+
+    <%-include ('components/footer.ejs') %>
