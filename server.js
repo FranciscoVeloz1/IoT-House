@@ -55,12 +55,38 @@ circuito.on("ready", () => {
     temp = new five.Thermometer(sensor.temp)
 
     //Salida Habitacion Principal
-    var focoHP = new five.Relay(8);
-    var ConHP = new five.Relay(9);
+    var FocoHP = new five.Relay(8)
+    var ConHP = new five.Relay(9)
+
+    //Salida Habitacion Extra
+    var FocoHE = new five.Relay(10)
+    var ConHE = new five.Relay(11)
+
+    //Salida Entrada
+    var FocoInterior = new five.Relay(12)
+    var Cerradura = new five.Relay(13)
+
+    //Salida Sala
+    var FocoSala = new five.Relay(7)
+
+    //Salida Jardin
+    var BombaJardin = new five.Relay(6)
+    var Valvula = new five.Relay(5)
+
+    //Salida Ducha
+    var BombaDucha = new five.Relay(4)
 
     //Estatus relevador
-    focoHP.off()
+    FocoHP.off()
     ConHP.off()
+    FocoHE.off
+    ConHE.off
+    FocoInterior.off()
+    Cerradura.off()
+    FocoSala.off()
+    BombaJardin.off()
+    Valvula.off()
+    BombaDucha.off()
 
     //Conexion con WebSockets
     wSocket.on("connection", (ws, req) => {
@@ -75,11 +101,77 @@ circuito.on("ready", () => {
             switch(datos)
             {
                 case 0:
-                    focoHP.on()
+                    FocoHP.on()
                     break;
 
                 case 1:
-                    focoHP.off()
+                    FocoHP.off()
+                    break;
+
+                case 2:
+                    ConHP.on()
+                    break;
+
+                case 3:
+                    ConHP.off()
+                    break;
+
+                case 4:
+                    FocoHE.on()
+                    break;
+
+                case 5:
+                    FocoHE.off()
+                    break;
+
+                case 6:
+                    ConHE.on()
+                    break;
+
+                case 7:
+                    ConHE.off()
+                    break;
+
+                case 8:
+                    FocoInterior.on()
+                    break;
+
+                case 9:
+                    FocoInterior.off()
+                    break;
+
+                case 10:
+                    Cerradura.on()
+                    break;
+
+                case 11:
+                    Cerradura.off()
+                    break;
+
+                case 12:
+                    FocoSala.on()
+                    break;
+
+                case 13:
+                    FocoSala.off()
+                    break;
+
+                case 14:
+                    BombaJardin.on()
+                    Valvula.on()
+                    break;
+
+                case 15:
+                    BombaJardin.off()
+                    Valvula.off()
+                    break;
+
+                case 16:
+                    BombaDucha.on()
+                    break;
+
+                case 17:
+                    BombaDucha.off()
                     break;
             }
         }
