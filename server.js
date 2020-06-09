@@ -7,10 +7,12 @@ const entRoute = require('./routes/entrada')
 const salaRoute = require('./routes/sala')
 const jardinRoute = require('./routes/jardin')
 const banoRoute = require('./routes/bano')
+const sensorRoute = require('./routes/sensor');
 const http = require('http')
 const five = require("johnny-five")
 const socketIO = require("socket.io")
 const WebSocket = require("ws");
+const sensor = require('./settings/Sensores');
 
 var app = express()
 const servidor = http.createServer(app)
@@ -38,28 +40,49 @@ app.use('/entrada', entRoute)
 app.use('/sala', salaRoute)
 app.use('/jardin', jardinRoute)
 app.use('/bano', banoRoute)
+app.use('/sensor', sensorRoute)
 
 
 //Todo lo relacionado a Johnny-five
 
-var hola = "Hola"
+var gas, luz, temp
 
 circuito.on("ready", () => {
 
+    //Entradas...
+    luz = new five.Sensor(sensor.luz)
+    gas = new five.Sensor(sensor.gas)
+    temp = new five.Thermometer(sensor.temp)
+
+    //Salida Habitacion Principal
+    var focoHP = new five.Relay(8);
+    var ConHP = new five.Relay(9);
+
+    //Estatus relevador
+    focoHP.off()
+    ConHP.off()
+
+    //Conexion con WebSockets
     wSocket.on("connection", (ws, req) => {
         
         console.log("ws conectado...")
 
-        ws.on("message", datos => {
-            
+        ws.on("message", Lectura)
+
+        function Lectura(data) 
+        {
+            var datos = parseInt(data)
             switch(datos)
             {
                 case 0:
-                    console.log("Ws hola mundo")
+                    focoHP.on()
+                    break;
+
+                case 1:
+                    focoHP.off()
                     break;
             }
-
-        })
+        }
     })
 
     ImprimirSensores()
@@ -67,14 +90,20 @@ circuito.on("ready", () => {
 
 function ImprimirSensores()
 {
-    Prueba()
+    SensorGas()
+    SensorLuz()
 
     setTimeout(ImprimirSensores, "1000")
 }
 
-function Prueba()
+function SensorGas()
 {
-    io.emit("Hola", hola)
+    io.emit("gas", parseInt(gas.value))
+}
+
+function SensorLuz()
+{
+    io.emit("luz", parseInt(luz.value))
 }
 
 
