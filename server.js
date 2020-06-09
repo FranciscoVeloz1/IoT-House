@@ -1,5 +1,13 @@
-var express = require('express')
-var path = require('path')
+const express = require('express')
+const path = require('path')
+const mainRoute = require('./routes/main')
+const hpRoute = require('./routes/hp')
+const heRoute = require('./routes/he')
+const entRoute = require('./routes/entrada')
+const salaRoute = require('./routes/sala')
+const jardinRoute = require('./routes/jardin')
+const banoRoute = require('./routes/bano')
+
 var app = express()
 
 //archivos estaticos 
@@ -9,34 +17,14 @@ app.use('/', express.static('public'))
 app.set('view engine', 'ejs')
 app.set('views',path.join(__dirname,'views'))
 
-//metodo get
-app.get('/', (req,res) => {
-    res.render('index')
-})
-
-app.get('/habitacionprincipal', (req,res) => {
-    res.render('habitacionp')
-})
-
-app.get('/habitacionextra', (req,res) => {
-    res.render('habitacione')
-})
-
-app.get('/entrada', (req,res) => {
-    res.render('entradap')
-})
-
-app.get('/sala', (req,res) => {
-    res.render('salap')
-})
-
-app.get('/jardin', (req,res) => {
-    res.render('jardinp')
-})
-
-app.get('/bano', (req,res) => {
-    res.render('banop')
-})
+//Routes
+app.use('/', mainRoute)
+app.use('/habitacionprincipal', hpRoute)
+app.use('/habitacionextra', heRoute)
+app.use('/entrada', entRoute)
+app.use('/sala', salaRoute)
+app.use('/jardin', jardinRoute)
+app.use('/bano', banoRoute)
 
 //iniciar Servidor
 app.listen(5000, () => {
