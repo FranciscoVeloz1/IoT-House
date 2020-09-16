@@ -55,44 +55,40 @@ circuito.on("ready", () => {
     temp = new five.Thermometer(sensor.temp)
 
     //Salida Habitacion Principal
-    var FocoHP = new five.Relay(8)
-    var ConHP = new five.Relay(9)
+    var FocoHP = new five.Relay(10)
+    var ConHP = new five.Relay(3)
 
     //Salida Habitacion Extra
-    var FocoHE = new five.Relay(10)
-    var ConHE = new five.Relay(11)
+    var FocoHE = new five.Relay(9)
+    var ConHE = new five.Relay(2)
 
     //Salida Entrada
-    var FocoInterior = new five.Relay(12)
+    var FocoInterior = new five.Relay(11)
     var Cerradura = new five.Relay(13)
 
     //Salida Sala
-    var FocoSala = new five.Relay(7)
+    var FocoSala = new five.Relay(8)
 
     //Salida Jardin
     var BombaJardin = new five.Relay(6)
-    var Valvula = new five.Relay(5)
 
     //Salida Ducha
-    var BombaDucha = new five.Relay(4)
+    var BombaDucha = new five.Relay(7)
 
     //Estatus relevador
     FocoHP.off()
-    ConHP.off()
-    FocoHE.off
-    ConHE.off
+    ConHP.on()
+    FocoHE.off()
+    ConHE.on()
     FocoInterior.off()
     Cerradura.off()
     FocoSala.off()
-    BombaJardin.off()
-    Valvula.off()
+    BombaJardin.on()
     BombaDucha.off()
 
     //Conexion con WebSockets
     wSocket.on("connection", (ws, req) => {
         
-        console.log("ws conectado...")
-
         ws.on("message", Lectura)
 
         function Lectura(data) 
@@ -109,11 +105,11 @@ circuito.on("ready", () => {
                     break;
 
                 case 2:
-                    ConHP.on()
+                    ConHP.off()
                     break;
 
                 case 3:
-                    ConHP.off()
+                    ConHP.on()
                     break;
 
                 case 4:
@@ -125,11 +121,11 @@ circuito.on("ready", () => {
                     break;
 
                 case 6:
-                    ConHE.on()
+                    ConHE.off()
                     break;
 
                 case 7:
-                    ConHE.off()
+                    ConHE.on()
                     break;
 
                 case 8:
@@ -157,13 +153,11 @@ circuito.on("ready", () => {
                     break;
 
                 case 14:
-                    BombaJardin.on()
-                    Valvula.on()
+                    BombaJardin.off()
                     break;
 
                 case 15:
-                    BombaJardin.off()
-                    Valvula.off()
+                    BombaJardin.on()
                     break;
 
                 case 16:
